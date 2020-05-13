@@ -19,8 +19,8 @@ namespace InfectionSimulation
 
         private const int scale = 2;
         private World world = new World();
-        private long frameCount = 0;
-        private long frameTime = 0;
+        private long frameCount = 0;//AA: long?
+        private long frameTime = 0;//AA: idem
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -28,7 +28,7 @@ namespace InfectionSimulation
             SetStyle(ControlStyles.OptimizedDoubleBuffer
                 | ControlStyles.UserPaint
                 | ControlStyles.AllPaintingInWmPaint,
-                true);
+                true);//AA: No se para que sirve.
         }
 
         private void InitializeWorld()

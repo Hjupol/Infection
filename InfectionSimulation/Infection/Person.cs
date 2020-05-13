@@ -33,7 +33,7 @@ namespace InfectionSimulation
 
             Forward(world.Random(1, 2));
             Turn(world.Random(-25, 25));
-        }
+        }//AA: Para mi este está bastante bien.
         
     }
 }
