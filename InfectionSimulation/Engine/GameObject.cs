@@ -41,12 +41,16 @@ namespace InfectionSimulation
 
         public void InternalUpdateOn(World world)
         {
-            long now = Environment.TickCount;//AA: La cantidad de ticks desde que el prog se inicia, un calculo con esto seguramente sería costoso.
+            /*long now = Environment.TickCount;//AA: La cantidad de ticks desde que el prog se inicia, un calculo con esto seguramente sería costoso.
             if (now - lastUpdate > UpdateInterval)//AA: El calculo pesado propiamente dicho.
             {
                 lastUpdate = now;//AA: En un caso normal guardaría una variable muy grande, para que?
+                //AA: Corrección, esto se utiliza para que la actualización se realice cada 10 ticks.
                 UpdateOn(world);
-            }
+            }*/
+            //AA: Elimine el intervalo limitante para verificar si funciona mejor o peor.
+            UpdateOn(world);
+
         }
 
         public virtual void UpdateOn(World world)
