@@ -14,7 +14,7 @@ namespace InfectionSimulation
         private const int width = 300;
         private const int height = 300;
         private Size size = new Size(width, height);
-        private List<GameObject> objects = new List<GameObject>();
+        public List<GameObject> objects = new List<GameObject>();//Hice la lista publica, rompo el modelo pero tal vez me beneficia.
 
         private Pen pen = new Pen(Color.Honeydew);
 
@@ -121,5 +121,7 @@ namespace InfectionSimulation
             return objectsAtPos;
         }
 
+
+        
     }
 }
