@@ -99,8 +99,9 @@ namespace InfectionSimulation
             int result = a % n;
             if ((a < 0 && n > 0) || (a > 0 && n < 0))
                 result += n;
-            return result;//AA: Todo esto es un sisntentido que retorna la misma posición que el objeto tiene actualmente.
+            return result;//AA: Todo esto es un sisententido que retorna la misma posición que el objeto tiene actualmente.
         }//AA: Segun entendí esto es para obtener el resto en una división.
+
         private static Point Mod(Point p, Size s)
         {
             //AA: Anchura y altura = 300
