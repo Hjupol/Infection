@@ -57,7 +57,6 @@ namespace InfectionSimulation
         public void Turn(int angle)
         {
             Rotation += Math.PI * angle / 180.0;//AA: Rotaría el objeto, no tengo tanto conocimiento para saber si esto es performante o existe una manera más sencilla.
-            //Multiplicar por pi y dividir por 180 convierte el angulo en radianes
         }
 
         public void Forward(int dist)

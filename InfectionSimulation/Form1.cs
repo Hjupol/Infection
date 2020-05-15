@@ -60,7 +60,7 @@ namespace InfectionSimulation
             RegisterFrameTime(end - begin);
 
             Text = string.Format("Objects: {0}, Average FPS: {1:00}, Current FPS: {2:00}",
-                world.objects.Count(),
+                world.GameObjects.Count(),
                 1000.0 / (frameTime / frameCount),
                 1000.0 / (end - begin));
         }
@@ -73,7 +73,7 @@ namespace InfectionSimulation
 
         private void lifeSpawner_Tick(object sender, EventArgs e)
         {
-            IEnumerable<Person> persons = world.objects.Cast<Person>();
+            IEnumerable<Person> persons = world.GameObjects.Cast<Person>();
             if (persons.All(p => p.Infected))
             {
                 foreach (Person p in persons)

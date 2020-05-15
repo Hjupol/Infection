@@ -14,7 +14,7 @@ namespace InfectionSimulation
         private const int width = 300;
         private const int height = 300;
         private Size size = new Size(width, height);
-        public List<GameObject> objects = new List<GameObject>();//Hice la lista publica, rompo el modelo pero tal vez me beneficia.
+        private List<GameObject> objects = new List<GameObject>();
 
         public IEnumerable<GameObject> GameObjects {
             get
@@ -108,7 +108,5 @@ namespace InfectionSimulation
             return GameObjects.Where(each => each.Position.Equals(pos));//AA: Desconcozco si esto es necesario u optimizable.
         }
 
-
-        
     }
 }

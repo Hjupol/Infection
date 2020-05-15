@@ -13,7 +13,7 @@ namespace InfectionSimulation
 
         public override void UpdateOn(World world)
         {
-            List<Person> near = world.ObjectsAt(Position).Cast<Person>().ToList();
+            IEnumerable<Person> near = world.ObjectsAt(Position).Cast<Person>();
             if (Infected)
             {
                 Color = Color.Red;
@@ -25,17 +25,10 @@ namespace InfectionSimulation
             else
             {
                 Color = Color.Blue;
-                foreach (Person p in near)
+                if (near.Any(p => p.Infected))
                 {
-                    if (p.Infected)
-                    {
-                        Infected = true;
-                    }
+                    Infected = true;
                 }
-                //if (near.Any(p => p.Infected))
-                //{
-                //    Infected = true;
-                //}
             }
 
             Forward(world.Random(1, 2));
