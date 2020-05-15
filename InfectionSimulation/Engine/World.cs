@@ -15,6 +15,7 @@ namespace InfectionSimulation
         private const int height = 300;
         private Size size = new Size(width, height);
         private List<GameObject> objects = new List<GameObject>();
+        private List<GameObject>[,] spatialObjects = new List<GameObject>[width, height];
 
         public IEnumerable<GameObject> GameObjects {
             get
@@ -52,19 +53,39 @@ namespace InfectionSimulation
         public void Add(GameObject obj)
         {
             objects.Add(obj);
+            GetBucketAt(obj.Position).Add(obj);
         }
 
         public void Remove(GameObject obj)
         {
             objects.Remove(obj);
+            GetBucketAt(obj.Position).Remove(obj);
+        }
+
+        public List<GameObject> GetBucketAt(Point pos)
+        {
+            var bucket = spatialObjects[pos.X, pos.Y];
+            if (bucket == null)
+            {
+                bucket = new List<GameObject>();
+                spatialObjects[pos.X, pos.Y] = bucket;
+            }
+            return bucket;
         }
 
         public void Update()
         {
             foreach (GameObject obj in GameObjects)
             {
+                var oldPosition = obj.Position;
+
                 obj.InternalUpdateOn(this);//AA: El procesamiento pesado que ya noté.
                 obj.Position = Mod(obj.Position, size);//AA: Como señale más abajo esto es totalmente eliminable, no tiene razon de ser.
+                if (oldPosition != obj.Position)
+                {
+                    GetBucketAt(oldPosition).Remove(obj);
+                    GetBucketAt(obj.Position).Add(obj);
+                }
             }
         }
 
@@ -104,7 +125,7 @@ namespace InfectionSimulation
 
         public IEnumerable<GameObject> ObjectsAt(Point pos)
         {
-            return GameObjects.Where(each => each.Position.Equals(pos));//AA: Desconcozco si esto es necesario u optimizable.
+            return GetBucketAt(pos);//AA: Desconcozco si esto es necesario u optimizable.
         }
 
     }
