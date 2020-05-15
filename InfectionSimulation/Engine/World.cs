@@ -15,7 +15,9 @@ namespace InfectionSimulation
         private const int height = 300;
         private Size size = new Size(width, height);
         private List<GameObject> objects = new List<GameObject>();
+
         private List<GameObject>[,] spatialObjects = new List<GameObject>[width, height];
+        private Pen pen = new Pen(Color.White);
 
         public IEnumerable<GameObject> GameObjects {
             get
@@ -95,7 +97,8 @@ namespace InfectionSimulation
 
             foreach (GameObject obj in GameObjects)
             {
-                graphics.FillRectangle(new Pen(obj.Color).Brush, obj.Bounds);//AA: Es necesario crear un nuevo Pen x cada obj??
+                pen.Color = obj.Color;
+                graphics.FillRectangle(pen.Brush, obj.Bounds);//AA: Es necesario crear un nuevo Pen x cada obj??
             }
         }
 
