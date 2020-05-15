@@ -16,25 +16,23 @@ namespace InfectionSimulation
         private Size size = new Size(width, height);
         public List<GameObject> objects = new List<GameObject>();//Hice la lista publica, rompo el modelo pero tal vez me beneficia.
 
-        private Pen pen = new Pen(Color.Honeydew);
-
-        /*public IEnumerable<GameObject> GameObjects {
+        public IEnumerable<GameObject> GameObjects {
             get
             {
                 return objects.ToArray();//AA: Para que sirve esto? Un array de objetos enumerables?
             }
-        }//AA: Un ienumerable de los objetos es innecesario y menos performante que una lista*/
+        }
 
         public int Width { get { return width; } }
         public int Height { get { return height; } }
 
-        public Point Center { get { return new Point(width / 2, height / 2); } }//AA: No es utilizado en ningún momento.
+        public Point Center { get { return new Point(width / 2, height / 2); } }
 
         public bool IsInside(Point p)//AA: Determina si el punto esta dentro del mundo de juego. Debería ser limitado desde antes. 
         {
             return p.X >= 0 && p.X < width
                 && p.Y >= 0 && p.Y < height;
-        }//AA: No es utilizado en ningún momento.
+        }
         
         public Point RandomPoint()
         {
@@ -43,12 +41,12 @@ namespace InfectionSimulation
 
         public float Random()
         {
-            return (float)rnd.NextDouble();//AA: Es utilizado para determinar la rotación de las entidades.
+            return (float)rnd.NextDouble();//AA: No se para que servirá
         }
 
         public int Random(int min, int max)
         {
-            return rnd.Next(min, max);//AA: Determina la distancia que avanzan las entidades y cuanto giran.
+            return rnd.Next(min, max);
         }
 
         public void Add(GameObject obj)
@@ -63,12 +61,10 @@ namespace InfectionSimulation
 
         public void Update()
         {
-            foreach (GameObject obj in objects)
+            foreach (GameObject obj in GameObjects)
             {
                 obj.InternalUpdateOn(this);//AA: El procesamiento pesado que ya noté.
-
-                /*obj.Position = Mod(obj.Position, size);*/
-                //AA: Como señale más abajo esto es totalmente eliminable, no tiene razon de ser.
+                obj.Position = Mod(obj.Position, size);//AA: Como señale más abajo esto es totalmente eliminable, no tiene razon de ser.
             }
         }
 
@@ -76,21 +72,20 @@ namespace InfectionSimulation
         {
             graphics.FillRectangle(Brushes.Black, 0, 0, width, height);//AA: Esto debe implementarse a cada rato??
 
-            foreach (GameObject obj in objects)
+            foreach (GameObject obj in GameObjects)
             {
-                pen.Color = (obj.Color);
-                graphics.FillRectangle(pen.Brush, obj.Bounds);//AA: Es necesario crear un nuevo Pen x cada obj??Reemplacé la creacion de un pen nuevo cada vez por uno ya creado.
+                graphics.FillRectangle(new Pen(obj.Color).Brush, obj.Bounds);//AA: Es necesario crear un nuevo Pen x cada obj??
             }
         }
 
         public double Dist(Point a, Point b)
         {
-            return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));//AA: Calculo excesivamente grande para la distancia entre dos puntos. Sin embargo no es utilizado.
+            return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));//AA: Calculo excesivamente grande para la distancia entre dos puntos.
         }
 
         public double Dist(int x1, int y1, int x2, int y2)
         {
-            return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));//AA: Idem.
+            return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
         }
 
         // http://stackoverflow.com/a/10065670/4357302
@@ -108,18 +103,9 @@ namespace InfectionSimulation
             return new Point(Mod(p.X, s.Width), Mod(p.Y, s.Height));//Esto crearía un nuevo punto en 0,0 sin motivo aparente
         }
 
-        public List<GameObject> ObjectsAt(Point pos)
+        public IEnumerable<GameObject> ObjectsAt(Point pos)
         {
-            List<GameObject> objectsAtPos = new List<GameObject>();
-
-            foreach(GameObject _gameObject in objects)
-            {
-                if (_gameObject.Position == pos)
-                {
-                    objectsAtPos.Add(_gameObject);
-                }
-            }
-            return objectsAtPos;
+            return GameObjects.Where(each => each.Position.Equals(pos));//AA: Desconcozco si esto es necesario u optimizable.
         }
 
 
